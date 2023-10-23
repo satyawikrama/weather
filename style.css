@@ -1,0 +1,18 @@
+.body {
+  background: linear-gradient(rgb(235, 235, 125), white);
+  min-height: 1500px;
+}
+.about {
+  padding-top: 2rem;
+}
+.jumbotron {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.footer {
+  padding-top: 2rem;
+}
+.hasil {
+  background-size: cover;
+  background-image: url("img/sunny.webp");
+}

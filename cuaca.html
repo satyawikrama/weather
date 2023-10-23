@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  </head>
+  <body class="body">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-warning shadow">
+      <div class="container">
+        <a class="navbar-brand" href="#">Weather Condition</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#Track">Track</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#About">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Work">TESTING</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#Footer">Footer</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <!-- Search -->
+    <div class="jumbotron text-center" id="Track">
+      <div class="container">
+        <div class="row text-center mb-3">
+          <div class="col">
+            <h2>TRACK THE WEATHER</h2>
+          </div>
+        </div>
+      </div>
+      <div class="contaioner">
+        <div class="row">
+          <div class="col ms-auto me-auto">
+            <input type="text" class="rounded-pill text-center" placeholder="Enter Your City" id="city" />
+            <button class="rounded-circle justify-content-center" type="button" id="search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Search -->
+
+    <!-- Hasil -->
+    <div id="weather-info"></div>
+    <!-- <div class="container">
+      <div class="hasil col">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-warning shadow">
+          <div class="container">
+            <a class="navbar-brand"><span id="city"> </span></a>
+          </div>
+        </nav>
+        <div class="row justify-content-between mt-3">
+          <div class="col-5 ms-2">
+            <h1><span id="temp"> </span></h1>
+            <h3><span id="weather"> </span></h3>
+            <h4><span id="humidity"> </span></h4>
+            <h4><span id="windspeed"> </span></h4>
+          </div>
+          <div class="col-3 ms-auto">
+            <img src="img/matahari.png" alt="matahari" style="height: 200px; width: 200px" />
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- End Hasil -->
+
+    <script>
+      const apiKey = "271c2f4238dc6e8d148c9dbd0ff33a34";
+
+      document.getElementById("search").addEventListener("click", function () {
+        const cityName = document.getElementById("city").value;
+        const weatherInfo = document.getElementById("weather-info");
+
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
+
+        fetch(apiUrl)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Gagal mengambil data cuaca");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            const temperature = (data.main.temp - 273.15).toFixed(2);
+            weatherInfo.innerHTML = `
+            <div class="container">
+            <div class="hasil col">
+              <nav class="navbar navbar-expand-lg navbar-dark bg-warning shadow">
+                <div class="container">
+                  <a class="navbar-brand">${cityName}</a>
+                </div>
+              </nav>
+              <div class="row justify-content-between mt-3">
+                <div class="col-5 ms-2">
+                  <h1>${temperature}°C</h1>
+                  <h3>${data.weather[0].description}</h3>
+                  <h4>Humidity : ${data.main.humidity}%</h4>
+                  <h4>Wind Speed : ${data.wind.speed}km/h</h4>
+                </div>
+                <div class="col-3 ms-auto">
+                    <img src="img/matahari.png" alt="matahari" style="height: 200px; width: 200px" />
+                 </div>
+              </div>
+            </div>
+          </div>
+          `;
+          })
+          .catch((error) => {
+            console.error(error.message);
+          });
+      });
+    </script>
+  </body>
+</html>
